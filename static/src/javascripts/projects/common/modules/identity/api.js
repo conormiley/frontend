@@ -228,7 +228,7 @@ export const smartLockSignIn = (
     console.log(returnUrl);
     console.log(csrfToken);
     fetch(url, {
-        crossOrigin: true,
+        mode: 'cors',
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: qs.stringify({
