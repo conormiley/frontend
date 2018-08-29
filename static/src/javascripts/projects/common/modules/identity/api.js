@@ -222,7 +222,7 @@ export const smartLockSignIn = (
     returnUrl: string,
     csrfToken: string
 ) => {
-    const url = `${profileRoot || ''}/auth/ajax`;
+    const url = `${profileRoot || ''}/actions/auth/ajax`;
     console.log(url);
     console.log(credentials);
     console.log(returnUrl);
