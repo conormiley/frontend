@@ -222,7 +222,7 @@ export const smartLockSignIn = (
     returnUrl: string,
     csrfToken: string
 ) => {
-    const url = 'https://profile.thegulocal.com/auth/ajax';
+    const url = (profileRoot || '') + '/auth/ajax';
     console.log(url);
     console.log(credentials);
     console.log(returnUrl);
