@@ -1,13 +1,13 @@
 // @flow
 
 /* global escape:true */
-import {ajax} from 'lib/ajax';
+import { ajax } from 'lib/ajax';
 import config from 'lib/config';
-import {getCookie as getCookieByName} from 'lib/cookies';
+import { getCookie as getCookieByName } from 'lib/cookies';
 import mediator from 'lib/mediator';
-import {local} from 'lib/storage';
-import {mergeCalls} from 'common/modules/async-call-merger';
-import {getUrlVars} from 'lib/url';
+import { local } from 'lib/storage';
+import { mergeCalls } from 'common/modules/async-call-merger';
+import { getUrlVars } from 'lib/url';
 import fetch from 'lib/fetch';
 
 const qs = require('qs');
@@ -230,15 +230,15 @@ export const smartLockSignIn = (
     fetch(url, {
         credentials: 'same-origin',
         method: 'POST',
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: qs.stringify({
             email: credentials.id,
             password: credentials.password,
-            csrfToken
-        })
+            csrfToken,
+        }),
     }).then(r => {
         if (r.status === 200) {
-            console.log("got success");
+            console.log('got success');
             window.location.href = returnUrl;
         } else {
             throw new Error(ERR_FAILED_SIGNIN);

@@ -1,8 +1,11 @@
 // @flow
 
 import fastdom from 'lib/fastdom-promise';
-import {getUserFromCookie, isUserLoggedIn} from 'common/modules/identity/api';
-import {smartLockSignIn} from 'common/modules/identity/api';
+import {
+    getUserFromCookie,
+    isUserLoggedIn,
+    smartLockSignIn,
+} from 'common/modules/identity/api';
 
 const updateCommentLink = (commentItems): void => {
     const user = getUserFromCookie();
@@ -36,21 +39,22 @@ const showMyAccountIfNecessary = (): void => {
             console.log('browser has support');
             // do the signin
             // $FlowFixMe
-            navigator.credentials.get({
-                password: true
-            }).then(creds => {
-                if (creds) {
-                    smartLockSignIn(creds, "foo", "bar");
-                    console.log(creds);
-                    // do login
-                } else {
-                    console.log('no creds');
-                }
-            });
+            navigator.credentials
+                .get({
+                    password: true,
+                })
+                .then(creds => {
+                    if (creds) {
+                        smartLockSignIn(creds, 'foo', 'bar');
+                        console.log(creds);
+                        // do login
+                    } else {
+                        console.log('no creds');
+                    }
+                });
         }
         return;
     }
-
 
     fastdom
         .read(() => ({
@@ -93,4 +97,4 @@ const showMyAccountIfNecessary = (): void => {
         });
 };
 
-export {showMyAccountIfNecessary};
+export { showMyAccountIfNecessary };
