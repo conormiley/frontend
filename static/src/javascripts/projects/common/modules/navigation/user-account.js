@@ -2,7 +2,7 @@
 
 import fastdom from 'lib/fastdom-promise';
 import {getUserFromCookie, isUserLoggedIn} from 'common/modules/identity/api';
-import { smartLockSignIn } from 'common/modules/identity/api';
+import {smartLockSignIn} from 'common/modules/identity/api';
 
 const updateCommentLink = (commentItems): void => {
     const user = getUserFromCookie();
