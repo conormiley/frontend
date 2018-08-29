@@ -8,6 +8,9 @@ import mediator from 'lib/mediator';
 import { local } from 'lib/storage';
 import { mergeCalls } from 'common/modules/async-call-merger';
 import { getUrlVars } from 'lib/url';
+import fetch from 'lib/fetch';
+
+const qs = require('qs');
 
 let userFromCookieCache = null;
 
@@ -16,6 +19,13 @@ const signOutCookieName = 'GU_SO';
 const fbCheckKey = 'gu.id.nextFbCheck';
 let idApiRoot = null;
 let profileRoot = null;
+
+const ERR_FAILED_SIGNIN = 'Error signing in with smart lock';
+
+type PasswordCredential = {
+    id: string,
+    password: string
+};
 
 export type IdentityUser = {
     id: number,
@@ -205,4 +215,34 @@ export const updateUsername = (username: string): any => {
     });
 
     return request;
+};
+
+export const smartLockSignIn = (
+    credentials: PasswordCredential,
+    returnUrl: string,
+    csrfToken: string
+) => {
+    const url = 'https://profile.thegulocal.com/auth/ajax';
+    console.log(url);
+    console.log(credentials);
+    console.log(returnUrl);
+    console.log(csrfToken);
+        fetch(url, {
+            credentials: 'same-origin',
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: qs.stringify({
+                email: credentials.id,
+                password: credentials.password,
+                // gaClientId: tracker.get('clientId'),
+                csrfToken
+            })
+        }).then(r => {
+            if (r.status === 200) {
+                console.log("got success");
+                window.location.href = returnUrl;
+            } else {
+                throw new Error(ERR_FAILED_SIGNIN);
+            }
+        });
 };

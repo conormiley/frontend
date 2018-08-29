@@ -1,7 +1,8 @@
 // @flow
 
 import fastdom from 'lib/fastdom-promise';
-import { getUserFromCookie, isUserLoggedIn } from 'common/modules/identity/api';
+import {getUserFromCookie, isUserLoggedIn} from 'common/modules/identity/api';
+import { smartLockSignIn } from 'common/modules/identity/api';
 
 const updateCommentLink = (commentItems): void => {
     const user = getUserFromCookie();
@@ -27,8 +28,29 @@ const updateCommentLink = (commentItems): void => {
 
 const showMyAccountIfNecessary = (): void => {
     if (!isUserLoggedIn()) {
+        // show pw manager popup
+        console.log('not logged in');
+        if (window.PasswordCredential) {
+            // Call navigator.credentials.get() to retrieve stored
+            // PasswordCredentials or FederatedCredentials.
+            console.log('browser has support');
+            // do the signin
+            // $FlowFixMe
+            navigator.credentials.get({
+                password: true
+            }).then(creds => {
+                if (creds) {
+                    smartLockSignIn(creds, "foo", "bar");
+                    console.log(creds);
+                    // do login
+                } else {
+                    console.log('no creds');
+                }
+            });
+        }
         return;
     }
+
 
     fastdom
         .read(() => ({
@@ -71,4 +93,4 @@ const showMyAccountIfNecessary = (): void => {
         });
 };
 
-export { showMyAccountIfNecessary };
+export {showMyAccountIfNecessary};
